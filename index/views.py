@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.db import models
 
 
-from . import models, dbhelper
+from . import models, dbhelper, forms
 
 
 class Index(View):
@@ -38,3 +38,23 @@ class Index(View):
             'projects': list(models.Project.objects.all())
         }
         return render(request, 'index/indextemplate.html', context=context)
+
+
+class DeleteItem(View):
+
+    def get(self, request):
+        if not models.Project.objects.all():
+            print 'no query'
+            context = {
+                'delete_project': forms.Delete_Project()
+            }
+        else:
+            print 'with query'
+            context = {
+                'delete_project': forms.Delete_Project(),
+                'projects': list(models.Project.objects.all())
+            }
+        return render(request, 'index/deltemplate.html', context=context)
+
+
+    # def post(self, request):
