@@ -2,18 +2,39 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from . import models
 from django.views import View
+from django.http import HttpResponse
+from django.db import models
+
+
+from . import models, dbhelper
 
 
 class Index(View):
 
     def get(self, request):
-        context = {
-            'project': models.Project()
-        }
-        print render(request, 'index/indextemplate.html', context=context)
+        if not models.Project.objects.all():
+            print 'no query'
+            context = {
+                'project': models.ProjectForm()
+            }
+        else:
+            print 'with query'
+            context = {
+                'project': models.ProjectForm(),
+                'projects': list(models.Project.objects.all())
+            }
         return render(request, 'index/indextemplate.html', context=context)
 
     def post(self, request):
-        return render(request, 'indextemplate.html', context=context)
+        form = models.ProjectForm(request.POST)
+        if form.is_valid() and dbhelper.does_project_exist(form.clean()):
+            form.save()
+        else:
+            return HttpResponse(500)
+
+        context = {
+            'project': models.ProjectForm(),
+            'projects': list(models.Project.objects.all())
+        }
+        return render(request, 'index/indextemplate.html', context=context)
