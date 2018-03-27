@@ -10,13 +10,14 @@ class Project(models.Model):
     id = models.AutoField(primary_key=True)
     project_name = models.CharField(max_length=64)
     company_name = models.CharField(max_length=64)
+    active = models.BooleanField(default = True)
 
 
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['project_name', 'company_name']
+        fields = ['project_name', 'company_name', 'active']
 
-class DeleteProject(forms.Form):
+class DeactivateItem(forms.Form):
     id = forms.IntegerField()
     
