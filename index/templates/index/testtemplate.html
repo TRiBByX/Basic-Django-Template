@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {% for c in companies %}
+            <h1>Company Name: {{c.company_name}}</h1>
+            <p>Company id: {{c.id}}</p>
+            {% for p in projects %}
+                {% if p.company == c %}
+                    <h2>Project name: {{p.project_name}}</h2>
+                    {% for g in p.groups.all %}
+                        <h3>Group ID: {{g.id}}</h3>
+                        <p>users:</p>
+                        {% for u in g.users.all %}
+                            <h4>username: {{u.name}}</h4>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </body>
+</html>

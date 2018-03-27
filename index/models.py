@@ -20,4 +20,16 @@ class ProjectForm(ModelForm):
 
 class DeactivateItem(forms.Form):
     id = forms.IntegerField()
+
+
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=64)
+
+class Group(models.Model):
+    id = models.ManyToManyField(Project)
+    group_id = models.AutoField(primary_key=True)
+    members = models.ManyToManyField(User)
+
+
     

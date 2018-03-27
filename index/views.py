@@ -8,7 +8,7 @@ from django.db import models
 from django.contrib import messages
 
 
-from . import models, dbhelper, forms
+from . import models, dbhelper, forms, testmodels
 
 
 class Index(View):
@@ -40,6 +40,42 @@ class Index(View):
         }
         return render(request, 'index/indextemplate.html', context=context)
 
+class DBtest(View):
+    
+    def get(self, request):
+        '''
+        c1 = testmodels.Company(company_name='c1')
+        c1.save()
+        u1 = testmodels.Us3r(name='user1', email='email@email.com', company=c1)
+        u2 = testmodels.Us3r(name='user2', email='email@email.com', company=c1)
+        u3 = testmodels.Us3r(name='user3', email='email@email.com', company=c1)
+        u1.save()
+        u2.save()
+        u3.save()
+        g1 = testmodels.Gr0up(company=c1)
+        g1.save()
+        g1.users.add(u1, u2, u3)
+        g1.save()
+        p1 = testmodels.Pr0ject(project_name='Icarus', company=c1)
+        p1.save()
+        p1.groups.add(g1)
+        p1.save()
+        '''
+
+        print len(list(testmodels.Pr0ject.objects.all()))
+
+        context = {
+            'companies': list(testmodels.Company.objects.all()),
+            'users': list(testmodels.Us3r.objects.all()),
+            'groups': list(testmodels.Gr0up.objects.all()),
+            'projects': list(testmodels.Pr0ject.objects.all()),
+            'indent': ' ',
+        }
+
+        return render(request, 'index/testtemplate.html', context=context)
+
+
+
 
 class DeactivateItem(View):
 
@@ -68,7 +104,7 @@ class DeactivateItem(View):
             else:
                 obj.active = False
                 obj.save()
-                
+
             context = {
                 'delete_project': models.DeactivateItem(),
                 'projects': list(models.Project.objects.all())
