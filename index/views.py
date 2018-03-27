@@ -46,15 +46,25 @@ class DeleteItem(View):
         if not models.Project.objects.all():
             print 'no query'
             context = {
-                'delete_project': forms.Delete_Project()
+                'delete_project': models.DeleteProject()
             }
         else:
             print 'with query'
             context = {
-                'delete_project': forms.Delete_Project(),
+                'delete_project': models.DeleteProject(),
                 'projects': list(models.Project.objects.all())
             }
         return render(request, 'index/deltemplate.html', context=context)
 
 
-    # def post(self, request):
+    def post(self, request):
+        form = models.DeleteProject(request.POST)
+        if form.is_valid():
+            id = form.clean().get('id')
+            models.Project.objects.filter(id=id).delete()
+
+            context = {
+                'delete_project': models.DeleteProject(),
+                'projects': list(models.Project.objects.all())
+            }
+            return render(request, 'index/deltemplate.html', context=context)

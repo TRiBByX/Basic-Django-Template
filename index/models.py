@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django import forms
 from django.forms import ModelForm
 
 
@@ -15,3 +16,7 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = ['project_name', 'company_name']
+
+class DeleteProject(forms.Form):
+    id = forms.IntegerField()
+    
