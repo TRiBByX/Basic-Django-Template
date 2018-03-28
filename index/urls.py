@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^test', views.DBtest.as_view(), name='test'),
     url(r'^update', views.UpdateProjectName.as_view(),
         name='UpdateProjectName'),
+    url(r'^set_active', views.setActive.as_view(), name='actItem'),
 ]

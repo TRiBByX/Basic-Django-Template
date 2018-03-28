@@ -19,9 +19,13 @@ class ProjectForm(ModelForm):
         fields = ['project_name', 'company_name', 'active']
 
 
-class DeactivateItem(forms.Form):
-    id = forms.IntegerField()
+class ActiveForm(forms.Form):
+    project = forms.ChoiceField(choices=[])
+    active = forms.BooleanField(required=False)
 
+    def __init__(self, *args, **kwargs):
+        super(ActiveForm, self).__init__(*args, **kwargs)
+        self.fields['project'].choices = [(p.id, p.project_name)for p in Project.objects.all()]
 
 class UpdateProjectForm(forms.Form):
     project = forms.ChoiceField(choices=[])  # Choices are set in the initialisation to force an update every refresh

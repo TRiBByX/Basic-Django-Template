@@ -112,6 +112,52 @@ class DeactivateItem(View):
                           context=context)
 
 
+class setActive(View):
+    def get(self, request):
+        context = {
+            'delete_project': models.ActiveForm(),
+            'projects': list(models.Project.objects.all())
+        }
+        return render(request, 'index/setActivetemplate.html',
+                      context=context)
+
+    def post(self, request):
+        form = models.ActiveForm(request.POST)
+        print form.clean()
+        if form.is_valid:
+            id = form.clean().get('project')
+            if form.clean().get('active'):
+                project = models.Project.objects.get(id=id)
+                project.active = True
+            else:
+                project.active = False
+
+        context = {
+            'delete_project': models.ActiveForm(),
+            'projects': list(models.Project.objects.all())
+        }
+        return render(request, 'index/setActivetemplate.html',
+                      context=context)
+
+    '''
+    def post(self, request):
+        form = models.DeactivateItem(request.POST)
+        if form.is_valid():
+            id = form.clean().get('project')
+            obj = models.Project.objects.get(id=id)
+            if obj.active:
+                messages.info(request, '{} is already set to active'.format(obj.project_name))
+            obj.active = True
+            obj.save()
+
+            context = {
+                'delete_project': models.DeactivateItem(),
+                'projects': list(models.Project.objects.all())
+            }
+            return render(request, 'index/setActivetemplate.html.html',
+                          context=context)
+
+    '''
 class UpdateProjectName(View):
 
     def get(self, request):
