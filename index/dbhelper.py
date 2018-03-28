@@ -5,8 +5,8 @@ from . import models
 
 def does_project_exist(project):
     print '---------------------------------------------------------------------------------', project
-    name = project.get('project_name')
-    if models.Project.objects.filter(project_name=name):
+    id = project.get('id')
+    if models.Project.objects.filter(id=id):
         print 'True'
         return False
     else:

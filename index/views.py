@@ -74,9 +74,6 @@ class DBtest(View):
 
         return render(request, 'index/testtemplate.html', context=context)
 
-
-
-
 class DeactivateItem(View):
 
     def get(self, request):
@@ -110,3 +107,26 @@ class DeactivateItem(View):
                 'projects': list(models.Project.objects.all())
             }
             return render(request, 'index/deactivateItemTemplate.html', context=context)
+
+class UpdateProjectName(View):
+
+    def get(self, request):
+        context = {
+            'updateform': models.UpdateProjectForm(),
+            'projects': list(models.Project.objects.all()),
+        }
+        return render(request, 'index/updateProjectTemplate.html', context=context)
+
+    def post(self, request):
+        form = models.UpdateProjectForm(request.POST)
+        if form.is_valid() and not dbhelper.does_project_exist(form.clean()):
+            project = models.Project.objects.get(id=form.clean().get('id'))
+            project.project_name = form.clean().get('new_project_name')
+            project.save()
+
+        context = {
+            'updateform': models.UpdateProjectForm(),
+            'projects': list(models.Project.objects.all()),
+        }
+
+        return render(request, 'index/updateProjectTemplate.html', context=context)
