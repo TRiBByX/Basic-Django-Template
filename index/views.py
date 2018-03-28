@@ -119,8 +119,9 @@ class UpdateProjectName(View):
 
     def post(self, request):
         form = models.UpdateProjectForm(request.POST)
-        if form.is_valid() and not dbhelper.does_project_exist(form.clean()):
-            project = models.Project.objects.get(id=form.clean().get('id'))
+        if form.is_valid():
+            print form.clean().get('project')
+            project = models.Project.objects.get(id=form.clean().get('project'))
             project.project_name = form.clean().get('new_project_name')
             project.save()
 
