@@ -40,8 +40,9 @@ class Index(View):
         }
         return render(request, 'index/indextemplate.html', context=context)
 
+
 class DBtest(View):
-    
+
     def get(self, request):
         '''
         c1 = testmodels.Company(company_name='c1')
@@ -74,6 +75,7 @@ class DBtest(View):
 
         return render(request, 'index/testtemplate.html', context=context)
 
+
 class DeactivateItem(View):
 
     def get(self, request):
@@ -88,15 +90,15 @@ class DeactivateItem(View):
                 'delete_project': models.DeactivateItem(),
                 'projects': list(models.Project.objects.all())
             }
-        return render(request, 'index/deactivateItemTemplate.html', context=context)
-
+        return render(request, 'index/deactivateItemTemplate.html',
+                      context=context)
 
     def post(self, request):
         form = models.DeactivateItem(request.POST)
         if form.is_valid():
             id = form.clean().get('id')
             obj = models.Project.objects.get(id=id)
-            if obj.active == False:
+            if not obj.active:
                 messages.info(request, 'Project {} has already been deactivated'.format(obj.project_name))
             else:
                 obj.active = False
@@ -106,7 +108,9 @@ class DeactivateItem(View):
                 'delete_project': models.DeactivateItem(),
                 'projects': list(models.Project.objects.all())
             }
-            return render(request, 'index/deactivateItemTemplate.html', context=context)
+            return render(request, 'index/deactivateItemTemplate.html',
+                          context=context)
+
 
 class UpdateProjectName(View):
 
@@ -115,7 +119,8 @@ class UpdateProjectName(View):
             'updateform': models.UpdateProjectForm(),
             'projects': list(models.Project.objects.all()),
         }
-        return render(request, 'index/updateProjectTemplate.html', context=context)
+        return render(request, 'index/updateProjectTemplate.html',
+                      context=context)
 
     def post(self, request):
         form = models.UpdateProjectForm(request.POST)
@@ -130,4 +135,5 @@ class UpdateProjectName(View):
             'projects': list(models.Project.objects.all()),
         }
 
-        return render(request, 'index/updateProjectTemplate.html', context=context)
+        return render(request, 'index/updateProjectTemplate.html',
+                      context=context)
