@@ -16,11 +16,11 @@ class Index(View):
     def get(self, request):
         if not models.Project.objects.all():
             context = {
-                'project': models.ProjectForm()
+                'form': models.ProjectForm()
             }
         else:
             context = {
-                'project': models.ProjectForm(),
+                'form': models.ProjectForm(),
                 'projects': list(models.Project.objects.all())
             }
         return render(request, 'index/indextemplate.html', context=context)
@@ -33,7 +33,7 @@ class Index(View):
             return HttpResponse(500)
 
         context = {
-            'project': models.ProjectForm(),
+            'form': models.ProjectForm(),
             'projects': list(models.Project.objects.all())
         }
         return render(request, 'index/indextemplate.html', context=context)
@@ -79,15 +79,15 @@ class DeactivateItem(View):
         if not models.Project.objects.all():
             print 'no query'
             context = {
-                'delete_project': models.DeactivateItem()
+                'form': models.DeactivateItem()
             }
         else:
             print 'with query'
             context = {
-                'delete_project': models.DeactivateItem(),
+                'form': models.DeactivateItem(),
                 'projects': list(models.Project.objects.all())
             }
-        return render(request, 'index/deactivateItemTemplate.html',
+        return render(request, 'index/indextemplate.html',
                       context=context)
 
     def post(self, request):
@@ -102,10 +102,10 @@ class DeactivateItem(View):
                 obj.save()
 
             context = {
-                'delete_project': models.DeactivateItem(),
+                'form': models.DeactivateItem(),
                 'projects': list(models.Project.objects.all())
             }
-            return render(request, 'index/deactivateItemTemplate.html',
+            return render(request, 'index/indextemplate.html',
                           context=context)
 
 
@@ -113,10 +113,10 @@ class updateCompany(View):
     
     def get(self, request):
         context = {
-            'updateform': models.UpdateCompanyForm(),
+            'form': models.UpdateCompanyForm(),
             'projects': list(models.Project.objects.all()),
         }
-        return render(request, 'index/updateCompanyTemplate.html',
+        return render(request, 'index/indextemplate.html',
                       context=context)
 
     def post(self, request):
@@ -130,20 +130,20 @@ class updateCompany(View):
             project.save()
 
         context = {
-            'updateform': models.UpdateCompanyForm(),
+            'form': models.UpdateCompanyForm(),
             'projects': list(models.Project.objects.all()),
         }
 
-        return render(request, 'index/updateCompanyTemplate.html',
+        return render(request, 'index/indextemplate.html',
                      context=context)
 
 class setActive(View):
     def get(self, request):
         context = {
-            'delete_project': models.ActiveForm(),
+            'form': models.ActiveForm(),
             'projects': list(models.Project.objects.all())
         }
-        return render(request, 'index/setActivetemplate.html',
+        return render(request, 'index/indextemplate.html',
                       context=context)
 
     def post(self, request):
@@ -159,10 +159,10 @@ class setActive(View):
             project.save()
 
         context = {
-            'delete_project': models.ActiveForm(),
+            'form': models.ActiveForm(),
             'projects': list(models.Project.objects.all())
         }
-        return render(request, 'index/setActivetemplate.html',
+        return render(request, 'index/indextemplate.html',
                       context=context)
 
 
@@ -170,10 +170,10 @@ class UpdateProjectName(View):
 
     def get(self, request):
         context = {
-            'updateform': models.UpdateProjectForm(),
+            'form': models.UpdateProjectForm(),
             'projects': list(models.Project.objects.all()),
         }
-        return render(request, 'index/updateProjectTemplate.html',
+        return render(request, 'index/indextemplate.html',
                       context=context)
 
     def post(self, request):
@@ -185,9 +185,9 @@ class UpdateProjectName(View):
             project.save()
 
         context = {
-            'updateform': models.UpdateProjectForm(),
+            'form': models.UpdateProjectForm(),
             'projects': list(models.Project.objects.all()),
         }
 
-        return render(request, 'index/updateProjectTemplate.html',
+        return render(request, 'index/indextemplate.html',
                       context=context)
