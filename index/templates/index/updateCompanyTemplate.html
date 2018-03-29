@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div class='form'>
+            <form method='post'>
+                {% csrf_token %}
+                {{updateform.as_p}}
+                <br>
+                <input type="submit" name="submit">
+            </form>
+        </div>
+        <p>------------------------------------------------------------------------------------------------</p>
+        {% for p in projects %}
+        <div>
+            <p>Project id: {{p.id}}</p>
+            <p>Project Name: {{p.project_name}}</p>
+            <p>Company Name: {{p.company_name}}</p>
+            <p>Active: {{p.active}}</p>
+        </div>
+        <p>------------------------------------------------------------------------------------------------</p>
+        {% endfor %}
+    </body>
+</html>
