@@ -100,7 +100,6 @@ class DeactivateItem(View):
             else:
                 obj.active = False
                 obj.save()
-
             context = {
                 'form': models.DeactivateItem(),
                 'projects': list(models.Project.objects.all())
@@ -110,7 +109,7 @@ class DeactivateItem(View):
 
 
 class updateCompany(View):
-    
+
     def get(self, request):
         context = {
             'form': models.UpdateCompanyForm(),
@@ -135,7 +134,8 @@ class updateCompany(View):
         }
 
         return render(request, 'index/indextemplate.html',
-                     context=context)
+                      context=context)
+
 
 class setActive(View):
     def get(self, request):
